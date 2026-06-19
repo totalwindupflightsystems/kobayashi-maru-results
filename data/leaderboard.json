@@ -1,17 +1,17 @@
 {
   "lastWake": {
-    "wake": 52,
-    "date": "June 16",
-    "kills": 2,
+    "wake": 53,
+    "date": "June 19",
+    "kills": 3,
     "episodes": 3,
-    "killRate": 0.6666666666666666,
-    "finding": "\u26a0\ufe0f 2/3 KILLS \u2014 EP1 FAILED (seed 2 empty AI response, 5th instance). Micro Management maneuver debut. Delta port=0.4 in A"
+    "killRate": 1.0,
+    "finding": "\ud83c\udf89 3/3 KILLS \u2014 16TH CONSECUTIVE 100% WAKE. Attack Pattern Omega DEBUT. Rescue Run \u00d73. HACK_SHIELDS RETURNED. NO SEED-2 FA"
   },
   "leaderboard": [
     {
       "model": "deepseek-v4-pro",
-      "episodes": 11,
-      "winRate": 0.7272727272727273,
+      "episodes": 14,
+      "winRate": 0.7857142857142857,
       "avgScore": 0.42,
       "costEfficiency": 1.4
     }
@@ -27,6 +27,14 @@
     }
   ],
   "recent": [
+    {
+      "wake": 53,
+      "date": "June 19",
+      "kills": 3,
+      "episodes": 3,
+      "killRate": 1.0,
+      "finding": "\ud83c\udf89 3/3 KILLS \u2014 16TH CONSECUTIVE 100% WAKE. Attack Pattern Omega DEBUT. Rescue Run \u00d73. HACK_SHIELDS RETURNED. NO SEED-2 FA"
+    },
     {
       "wake": 52,
       "date": "June 16",
