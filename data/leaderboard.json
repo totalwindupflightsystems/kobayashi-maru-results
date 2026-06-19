@@ -1,17 +1,17 @@
 {
   "lastWake": {
-    "wake": 54,
+    "wake": 55,
     "date": "June 19",
     "kills": 2,
     "episodes": 3,
     "killRate": 0.6666666666666666,
-    "finding": "\u26a0\ufe0f 2/3 KILLS \u2014 EP0 FAILED (orders-as-object JSON parsing bug). DELTA PORT=0.5 ESCALATED. SEED-2 CLEAN. 17TH CONSECUTIVE "
+    "finding": "\u26a0\ufe0f 2/3 KILLS \u2014 SEED 2 FAILED (orders-as-object JSON parsing bug). 3RD RECURRENCE. SEED 1 & 3 VICTORY."
   },
   "leaderboard": [
     {
       "model": "deepseek-v4-pro",
-      "episodes": 402,
-      "winRate": 0.8333333333333334,
+      "episodes": 405,
+      "winRate": 0.8320987654320988,
       "avgScore": 0.42,
       "costEfficiency": 1.4
     }
@@ -27,6 +27,14 @@
     }
   ],
   "recent": [
+    {
+      "wake": 55,
+      "date": "June 19",
+      "kills": 2,
+      "episodes": 3,
+      "killRate": 0.6666666666666666,
+      "finding": "\u26a0\ufe0f 2/3 KILLS \u2014 SEED 2 FAILED (orders-as-object JSON parsing bug). 3RD RECURRENCE. SEED 1 & 3 VICTORY."
+    },
     {
       "wake": 54,
       "date": "June 19",
