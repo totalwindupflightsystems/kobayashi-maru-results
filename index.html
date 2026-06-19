@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kobayashi Maru — AI Benchmark Results</title>
+<style>
+:root{--bg:#0a0a0f;--card:#141420;--text:#d4d4d8;--gold:#f0b90b;--green:#22c55e;--red:#ef4444;--blue:#3b82f6;--purple:#8b5cf6;--muted:#71717a}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;padding:2rem;max-width:900px;margin:0 auto}
+h1{color:var(--gold);text-align:center;margin-bottom:.5rem;font-size:2rem}
+h2{color:var(--blue);margin:2rem 0 1rem;border-bottom:1px solid #27272a;padding-bottom:.5rem}
+.subtitle{text-align:center;color:var(--muted);margin-bottom:2rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;margin:1.5rem 0}
+.card{background:var(--card);border-radius:8px;padding:1.2rem;text-align:center}
+.cardLabel{font-size:.75rem;text-transform:uppercase;color:var(--muted);letter-spacing:.05em;margin-bottom:.3rem}
+.cardValue{font-size:2rem;font-weight:700}
+.cardValue.big{font-size:2.5rem}
+.gold{color:var(--gold)}.green{color:var(--green)}.blue{color:var(--blue)}.purple{color:var(--purple)}
+table{width:100%;border-collapse:collapse;margin:1rem 0;background:var(--card);border-radius:8px;overflow:hidden}
+th{background:#1e1e2e;text-align:left;padding:.6rem .8rem;font-size:.8rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+td{padding:.6rem .8rem;border-top:1px solid #27272a}
+.highlight{background:#1a1a2e}
+.bar{display:inline-block;height:6px;border-radius:3px;vertical-align:middle;margin-left:8px}
+.greenbar{background:var(--green)}.bluebar{background:var(--blue)}.purplebar{background:var(--purple)}
+footer{text-align:center;color:var(--muted);font-size:.75rem;margin-top:3rem;padding-top:1rem;border-top:1px solid #27272a}
+a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline}
+.lastUpdated{color:var(--muted);text-align:center;font-size:.8rem;margin-top:2rem}
+</style>
+</head>
+<body>
+<h1>🖖 Kobayashi Maru</h1>
+<p class="subtitle">AI Captain Benchmark — How do different models command a starship in a no-win scenario?</p>
+
+<div class="cards">
+  <div class="card">
+    <div class="cardLabel">Total Episodes</div>
+    <div class="cardValue gold" id="totalEpisodes">—</div>
+  </div>
+  <div class="card">
+    <div class="cardLabel">Cumulative Win Rate</div>
+    <div class="cardValue green" id="winRate">—</div>
+  </div>
+  <div class="card">
+    <div class="cardLabel">Active Models</div>
+    <div class="cardValue blue" id="activeModels">—</div>
+  </div>
+  <div class="card">
+    <div class="cardLabel">Best Model</div>
+    <div class="cardValue purple" id="bestModel">—</div>
+  </div>
+</div>
+
+<h2>🏆 Leaderboard</h2>
+<table id="leaderboard">
+  <thead><tr><th>#</th><th>Model</th><th>Episodes</th><th>Win Rate</th><th>Avg Score</th><th>Cost Eff.</th></tr></thead>
+  <tbody id="leaderboardBody"><tr><td colspan="6" style="text-align:center;color:var(--muted)">Loading data...</td></tr></tbody>
+</table>
+
+<h2>📊 Decision Distribution</h2>
+<table id="decisions">
+  <thead><tr><th>Model</th><th>Maneuver Variety</th><th>Approach %</th><th>Evasive %</th><th>Aggressive ROE</th><th>Dynamic Shield</th></tr></thead>
+  <tbody id="decisionsBody"><tr><td colspan="6" style="text-align:center;color:var(--muted)">Loading data...</td></tr></tbody>
+</table>
+
+<h2>📈 Recent Activity</h2>
+<table id="recent">
+  <thead><tr><th>Wake</th><th>Date</th><th>Kill Rate</th><th>Episodes</th><th>Key Finding</th></tr></thead>
+  <tbody id="recentBody"><tr><td colspan="5" style="text-align:center;color:var(--muted)">Loading data...</td></tr></tbody>
+</table>
+
+<p class="lastUpdated" id="lastUpdated"></p>
+
+<footer>
+  <p>Kobayashi Maru — AI Benchmark · <a href="https://github.com/totalwindupflightsystems/kobayashi-maru-results">Results Repo</a> · <a href="https://github.com/dexdat/Kobayashi-Maru">Engine (private)</a></p>
+  <p>All episodes run deterministically. Scores auto-published from benchmark pipeline.</p>
+</footer>
+
+<script src="data/leaderboard.json"></script>
+<script>
+async function loadData(){try{const r=await fetch("data/leaderboard.json");const d=await r.json();
+if(d.lastWake){const w=d.lastWake;document.getElementById("totalEpisodes").textContent=w.cumulative.split("/")[1]||"—";document.getElementById("winRate").textContent=(parseFloat(w.winRate)*100).toFixed(1)+"%";document.getElementById("activeModels").textContent="1";document.getElementById("bestModel").textContent="deepseek-v4-pro"}
+if(d.leaderboard&&d.leaderboard.length){const t=document.getElementById("leaderboardBody");t.innerHTML=d.leaderboard.map((m,i)=>`<tr><td>${i+1}</td><td><strong>${m.model}</strong></td><td>${m.episodes}</td><td><span class="green">${(m.winRate*100).toFixed(0)}%</span><span class="bar greenbar" style="width:${m.winRate*80}px"></span></td><td>${(m.avgScore*100).toFixed(0)}</td><td>${m.costEfficiency.toFixed(2)}</td></tr>`).join("")}
+if(d.decisions&&d.decisions.length){const t=document.getElementById("decisionsBody");t.innerHTML=d.decisions.map(m=>`<tr><td><strong>${m.model}</strong></td><td>${m.maneuverVariety}</td><td>${(m.approachPct*100).toFixed(0)}%</td><td>${(m.evasivePct*100).toFixed(0)}%</td><td>${(m.aggressiveROE*100).toFixed(0)}%</td><td>${m.dynamicShield?"✅":"—"}</td></tr>`).join("")}
+if(d.recent&&d.recent.length){const t=document.getElementById("recentBody");t.innerHTML=d.recent.map(w=>`<tr><td>${w.wake}</td><td>${w.date}</td><td><span class="${w.killRate>=0.66?'green':'red'}">${w.kills}/${w.episodes}</span></td><td>${w.episodes}</td><td>${w.finding}</td></tr>`).join("")}
+document.getElementById("lastUpdated").textContent="Last updated: "+(d.lastWake?d.lastWake.date:"—")
+}catch(e){console.error(e);document.getElementById("leaderboardBody").innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--red)">Data unavailable — benchmark pipeline running</td></tr>';document.getElementById("decisionsBody").innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--red)">Data unavailable</td></tr>';document.getElementById("recentBody").innerHTML='<tr><td colspan="5" style="text-align:center;color:var(--red)">Data unavailable</td></tr>'}
+}loadData();
+</script>
+</body>
+</html>
