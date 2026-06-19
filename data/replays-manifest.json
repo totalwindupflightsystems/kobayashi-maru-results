@@ -1,0 +1,482 @@
+[
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v4-pro_2_3_1781889123",
+    "model_id": "deepseek-v4-pro",
+    "turns": 7,
+    "termination": "all_enemies_defeated",
+    "hull_remaining_pct": 58.4,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v4-pro_2_3_1781889123.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v4-pro_2_3_1781880968",
+    "model_id": "deepseek-v4-pro",
+    "turns": 8,
+    "termination": "all_enemies_defeated",
+    "hull_remaining_pct": 58.4,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v4-pro_2_3_1781880968.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v4-pro_2_3_1781587082",
+    "model_id": "deepseek-v4-pro",
+    "turns": 7,
+    "termination": "all_enemies_defeated",
+    "hull_remaining_pct": 49.4,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v4-pro_2_3_1781587082.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v4-pro_2_3_1781578992",
+    "model_id": "deepseek-v4-pro",
+    "turns": 7,
+    "termination": "all_enemies_defeated",
+    "hull_remaining_pct": 58.4,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v4-pro_2_3_1781578992.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v4-pro_2_3_1781570666",
+    "model_id": "deepseek-v4-pro",
+    "turns": 7,
+    "termination": "all_enemies_defeated",
+    "hull_remaining_pct": 49.4,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v4-pro_2_3_1781570666.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v4-pro_2_3_1781562446",
+    "model_id": "deepseek-v4-pro",
+    "turns": 7,
+    "termination": "all_enemies_defeated",
+    "hull_remaining_pct": 58.4,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v4-pro_2_3_1781562446.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v4-pro_2_3_1781554465",
+    "model_id": "deepseek-v4-pro",
+    "turns": 8,
+    "termination": "all_enemies_defeated",
+    "hull_remaining_pct": 58.4,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v4-pro_2_3_1781554465.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v4-pro_2_3_1781546585",
+    "model_id": "deepseek-v4-pro",
+    "turns": 7,
+    "termination": "all_enemies_defeated",
+    "hull_remaining_pct": 58.4,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v4-pro_2_3_1781546585.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v4-pro_2_3_1781536923",
+    "model_id": "deepseek-v4-pro",
+    "turns": 7,
+    "termination": "all_enemies_defeated",
+    "hull_remaining_pct": 58.4,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v4-pro_2_3_1781536923.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v4-pro_2_3_1781520831",
+    "model_id": "deepseek-v4-pro",
+    "turns": 4,
+    "termination": "ai_error",
+    "hull_remaining_pct": 100,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v4-pro_2_3_1781520831.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v4-pro_2_3_1781512491",
+    "model_id": "deepseek-v4-pro",
+    "turns": 7,
+    "termination": "all_enemies_defeated",
+    "hull_remaining_pct": 58.4,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v4-pro_2_3_1781512491.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v4-pro_2_3_1781503537",
+    "model_id": "deepseek-v4-pro",
+    "turns": 7,
+    "termination": "all_enemies_defeated",
+    "hull_remaining_pct": 58.5,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v4-pro_2_3_1781503537.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v4-pro_2_3_1781495213",
+    "model_id": "deepseek-v4-pro",
+    "turns": 7,
+    "termination": "all_enemies_defeated",
+    "hull_remaining_pct": 58.4,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v4-pro_2_3_1781495213.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v4-pro_2_3_1781477149",
+    "model_id": "deepseek-v4-pro",
+    "turns": 7,
+    "termination": "all_enemies_defeated",
+    "hull_remaining_pct": 58.4,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v4-pro_2_3_1781477149.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v4-pro_2_3_1781468963",
+    "model_id": "deepseek-v4-pro",
+    "turns": 8,
+    "termination": "all_enemies_defeated",
+    "hull_remaining_pct": 58.4,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v4-pro_2_3_1781468963.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v4-pro_2_3_1781452790",
+    "model_id": "deepseek-v4-pro",
+    "turns": 7,
+    "termination": "all_enemies_defeated",
+    "hull_remaining_pct": 76.4,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v4-pro_2_3_1781452790.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v4-pro_1_2_1781889004",
+    "model_id": "deepseek-v4-pro",
+    "turns": 7,
+    "termination": "all_enemies_defeated",
+    "hull_remaining_pct": 67.2,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v4-pro_1_2_1781889004.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v4-pro_1_2_1781880833",
+    "model_id": "deepseek-v4-pro",
+    "turns": 7,
+    "termination": "all_enemies_defeated",
+    "hull_remaining_pct": 67.2,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v4-pro_1_2_1781880833.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v4-pro_1_2_1781586872",
+    "model_id": "deepseek-v4-pro",
+    "turns": 5,
+    "termination": "ai_error",
+    "hull_remaining_pct": 58.2,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v4-pro_1_2_1781586872.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v4-pro_1_2_1781578738",
+    "model_id": "deepseek-v4-pro",
+    "turns": 8,
+    "termination": "all_enemies_defeated",
+    "hull_remaining_pct": 58.2,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v4-pro_1_2_1781578738.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v4-pro_1_2_1781570536",
+    "model_id": "deepseek-v4-pro",
+    "turns": 7,
+    "termination": "all_enemies_defeated",
+    "hull_remaining_pct": 67.2,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v4-pro_1_2_1781570536.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v4-pro_1_2_1781562312",
+    "model_id": "deepseek-v4-pro",
+    "turns": 7,
+    "termination": "all_enemies_defeated",
+    "hull_remaining_pct": 58.2,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v4-pro_1_2_1781562312.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v4-pro_1_2_1781554362",
+    "model_id": "deepseek-v4-pro",
+    "turns": 4,
+    "termination": "ai_error",
+    "hull_remaining_pct": 100,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v4-pro_1_2_1781554362.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v4-pro_1_2_1781546415",
+    "model_id": "deepseek-v4-pro",
+    "turns": 7,
+    "termination": "all_enemies_defeated",
+    "hull_remaining_pct": 58.2,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v4-pro_1_2_1781546415.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v4-pro_1_2_1781536736",
+    "model_id": "deepseek-v4-pro",
+    "turns": 7,
+    "termination": "all_enemies_defeated",
+    "hull_remaining_pct": 67.2,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v4-pro_1_2_1781536736.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v4-pro_1_2_1781520657",
+    "model_id": "deepseek-v4-pro",
+    "turns": 7,
+    "termination": "all_enemies_defeated",
+    "hull_remaining_pct": 67.2,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v4-pro_1_2_1781520657.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v4-pro_1_2_1781512228",
+    "model_id": "deepseek-v4-pro",
+    "turns": 8,
+    "termination": "all_enemies_defeated",
+    "hull_remaining_pct": 67.2,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v4-pro_1_2_1781512228.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v4-pro_1_2_1781503328",
+    "model_id": "deepseek-v4-pro",
+    "turns": 7,
+    "termination": "all_enemies_defeated",
+    "hull_remaining_pct": 86.1,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v4-pro_1_2_1781503328.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v4-pro_1_2_1781495060",
+    "model_id": "deepseek-v4-pro",
+    "turns": 7,
+    "termination": "all_enemies_defeated",
+    "hull_remaining_pct": 67.2,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v4-pro_1_2_1781495060.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v4-pro_1_2_1781476964",
+    "model_id": "deepseek-v4-pro",
+    "turns": 9,
+    "termination": "all_enemies_defeated",
+    "hull_remaining_pct": 67.2,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v4-pro_1_2_1781476964.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v4-pro_1_2_1781468851",
+    "model_id": "deepseek-v4-pro",
+    "turns": 7,
+    "termination": "all_enemies_defeated",
+    "hull_remaining_pct": 67.2,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v4-pro_1_2_1781468851.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v4-pro_1_2_1781461073",
+    "model_id": "deepseek-v4-pro",
+    "turns": 7,
+    "termination": "all_enemies_defeated",
+    "hull_remaining_pct": 58.2,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v4-pro_1_2_1781461073.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v4-pro_1_2_1781452583",
+    "model_id": "deepseek-v4-pro",
+    "turns": 7,
+    "termination": "all_enemies_defeated",
+    "hull_remaining_pct": 67.2,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v4-pro_1_2_1781452583.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v4-pro_0_1_1781888880",
+    "model_id": "deepseek-v4-pro",
+    "turns": 6,
+    "termination": "ai_error",
+    "hull_remaining_pct": 49.2,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v4-pro_0_1_1781888880.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v4-pro_0_1_1781880686",
+    "model_id": "deepseek-v4-pro",
+    "turns": 8,
+    "termination": "all_enemies_defeated",
+    "hull_remaining_pct": 49.2,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v4-pro_0_1_1781880686.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v4-pro_0_1_1781586661",
+    "model_id": "deepseek-v4-pro",
+    "turns": 7,
+    "termination": "all_enemies_defeated",
+    "hull_remaining_pct": 40.2,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v4-pro_0_1_1781586661.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v4-pro_0_1_1781578309",
+    "model_id": "deepseek-v4-pro",
+    "turns": 12,
+    "termination": "all_enemies_defeated",
+    "hull_remaining_pct": 49.2,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v4-pro_0_1_1781578309.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v4-pro_0_1_1781570313",
+    "model_id": "deepseek-v4-pro",
+    "turns": 9,
+    "termination": "all_enemies_defeated",
+    "hull_remaining_pct": 49.2,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v4-pro_0_1_1781570313.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v4-pro_0_1_1781561985",
+    "model_id": "deepseek-v4-pro",
+    "turns": 16,
+    "termination": "all_enemies_defeated",
+    "hull_remaining_pct": 49.2,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v4-pro_0_1_1781561985.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v4-pro_0_1_1781554178",
+    "model_id": "deepseek-v4-pro",
+    "turns": 10,
+    "termination": "all_enemies_defeated",
+    "hull_remaining_pct": 49.2,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v4-pro_0_1_1781554178.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v4-pro_0_1_1781546245",
+    "model_id": "deepseek-v4-pro",
+    "turns": 7,
+    "termination": "all_enemies_defeated",
+    "hull_remaining_pct": 49.2,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v4-pro_0_1_1781546245.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v4-pro_0_1_1781536543",
+    "model_id": "deepseek-v4-pro",
+    "turns": 7,
+    "termination": "all_enemies_defeated",
+    "hull_remaining_pct": 49.2,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v4-pro_0_1_1781536543.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v4-pro_0_1_1781528467",
+    "model_id": "deepseek-v4-pro",
+    "turns": 12,
+    "termination": "all_enemies_defeated",
+    "hull_remaining_pct": 49.2,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v4-pro_0_1_1781528467.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v4-pro_0_1_1781520427",
+    "model_id": "deepseek-v4-pro",
+    "turns": 8,
+    "termination": "all_enemies_defeated",
+    "hull_remaining_pct": 49.2,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v4-pro_0_1_1781520427.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v4-pro_0_1_1781511842",
+    "model_id": "deepseek-v4-pro",
+    "turns": 9,
+    "termination": "ai_error",
+    "hull_remaining_pct": 49.2,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v4-pro_0_1_1781511842.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v4-pro_0_1_1781502904",
+    "model_id": "deepseek-v4-pro",
+    "turns": 11,
+    "termination": "ai_error",
+    "hull_remaining_pct": 49.2,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v4-pro_0_1_1781502904.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v4-pro_0_1_1781494850",
+    "model_id": "deepseek-v4-pro",
+    "turns": 8,
+    "termination": "all_enemies_defeated",
+    "hull_remaining_pct": 49.2,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v4-pro_0_1_1781494850.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v4-pro_0_1_1781476701",
+    "model_id": "deepseek-v4-pro",
+    "turns": 13,
+    "termination": "all_enemies_defeated",
+    "hull_remaining_pct": 49.2,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v4-pro_0_1_1781476701.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v4-pro_0_1_1781468670",
+    "model_id": "deepseek-v4-pro",
+    "turns": 10,
+    "termination": "all_enemies_defeated",
+    "hull_remaining_pct": 49.2,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v4-pro_0_1_1781468670.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v4-pro_0_1_1781460746",
+    "model_id": "deepseek-v4-pro",
+    "turns": 14,
+    "termination": "all_enemies_defeated",
+    "hull_remaining_pct": 49.2,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v4-pro_0_1_1781460746.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v4-flash_2_3_1781121008",
+    "model_id": "deepseek-v4-flash",
+    "turns": 1,
+    "termination": "ai_error",
+    "hull_remaining_pct": 100,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v4-flash_2_3_1781121008.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v4-flash_1_2_1781121007",
+    "model_id": "deepseek-v4-flash",
+    "turns": 1,
+    "termination": "ai_error",
+    "hull_remaining_pct": 100,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v4-flash_1_2_1781121007.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v4-flash_1_2_1781113319",
+    "model_id": "deepseek-v4-flash",
+    "turns": 21,
+    "termination": "max_turns_reached",
+    "hull_remaining_pct": 93.3,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v4-flash_1_2_1781113319.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v4-flash_0_1_1781178536",
+    "model_id": "deepseek-v4-flash",
+    "turns": 21,
+    "termination": "max_turns_reached",
+    "hull_remaining_pct": 55.3,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v4-flash_0_1_1781178536.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v4-flash_0_1_1781121007",
+    "model_id": "deepseek-v4-flash",
+    "turns": 1,
+    "termination": "ai_error",
+    "hull_remaining_pct": 100,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v4-flash_0_1_1781121007.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v4-flash_0_1_1781113040",
+    "model_id": "deepseek-v4-flash",
+    "turns": 21,
+    "termination": "max_turns_reached",
+    "hull_remaining_pct": 47.7,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v4-flash_0_1_1781113040.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v4-flash_0_1_1781089161",
+    "model_id": "deepseek-v4-flash",
+    "turns": 21,
+    "termination": "max_turns_reached",
+    "hull_remaining_pct": 47.8,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v4-flash_0_1_1781089161.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-v3.1_0_1",
+    "model_id": "deepseek-v3.1",
+    "turns": 1,
+    "termination": "ai_error",
+    "hull_remaining_pct": 100,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-v3.1_0_1.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-r1_0_1",
+    "model_id": "deepseek-r1",
+    "turns": 1,
+    "termination": "ai_error",
+    "hull_remaining_pct": 100,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-r1_0_1.json"
+  },
+  {
+    "episode_id": "ep_neutral_zone.yaml_deepseek-3.2_0_1",
+    "model_id": "deepseek-3.2",
+    "turns": 1,
+    "termination": "ai_error",
+    "hull_remaining_pct": 100,
+    "file": "data/replays/ep_neutral_zone.yaml_deepseek-3.2_0_1.json"
+  }
+]

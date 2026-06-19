@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kobayashi Maru — 3D Replay Viewer</title>
+<style>
+:root{--bg:#0a0a0f;--card:#141420;--text:#d4d4d8;--gold:#f0b90b;--green:#22c55e;--red:#ef4444;--blue:#3b82f6;--muted:#71717a;--border:#27272a}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.5;overflow-x:hidden}
+h1{color:var(--gold);margin-bottom:.25rem}
+h2{color:var(--blue);margin:1.5rem 0 .75rem;border-bottom:1px solid var(--border);padding-bottom:.5rem;font-size:1.1rem}
+a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline}
+
+/* Layout */
+#app{max-width:1100px;margin:0 auto;padding:1rem}
+.top-bar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;margin-bottom:1rem}
+.top-bar select{padding:.4rem .6rem;background:var(--card);color:var(--text);border:1px solid var(--border);border-radius:6px;font-size:.9rem;min-width:300px}
+.top-bar button{padding:.4rem 1rem;background:var(--blue);color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:.9rem}
+.top-bar button:hover{opacity:.9}
+
+/* 3D Canvas */
+#canvas-wrap{width:100%;height:500px;background:#000;border-radius:8px;overflow:hidden;position:relative;margin-bottom:1rem}
+#canvas-wrap canvas{display:block}
+#loading-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.7);color:var(--muted);font-size:1.2rem;z-index:10}
+#loading-overlay.hidden{display:none}
+
+/* Controls */
+.controls{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem;padding:.75rem;background:var(--card);border-radius:8px}
+.controls button{width:36px;height:36px;border:none;border-radius:6px;background:#1e1e2e;color:var(--text);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center}
+.controls button:hover{background:#2a2a3e}
+.controls button:disabled{opacity:.3;cursor:default}
+.controls button.active{background:var(--blue)}
+.controls input[type=range]{flex:1;min-width:120px;accent-color:var(--blue)}
+.turn-indicator{font-size:.85rem;color:var(--muted);min-width:120px;text-align:center}
+.speed-group{display:flex;gap:2px}
+.speed-group button{width:auto;padding:.2rem .5rem;font-size:.75rem;border-radius:4px}
+
+/* Panels */
+.panel{background:var(--card);border-radius:8px;padding:1rem;margin-bottom:1rem}
+.status-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.75rem}
+.stat-item{text-align:center}
+.stat-label{font-size:.7rem;text-transform:uppercase;color:var(--muted);letter-spacing:.05em}
+.stat-value{font-size:1.3rem;font-weight:700;margin-top:.2rem}
+.stat-bar-wrap{height:6px;background:#1e1e2e;border-radius:3px;margin-top:.3rem;overflow:hidden}
+.stat-bar{height:100%;border-radius:3px;transition:width .2s}
+.green-bar{background:var(--green)}.yellow-bar{background:#eab308}.red-bar{background:var(--red)}
+
+.shield-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:.5rem}
+.shield-cell{text-align:center;padding:.4rem;background:#1e1e2e;border-radius:6px}
+.shield-cell.collapsed{background:#3d1f1f}
+.shield-face{font-size:.7rem;text-transform:uppercase;color:var(--muted)}
+.shield-val{font-size:1rem;font-weight:700;margin-top:.1rem}
+
+/* Timeline */
+.timeline{max-height:400px;overflow-y:auto}
+.turn-row{display:flex;align-items:center;padding:.5rem .75rem;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s}
+.turn-row:hover{background:#1a1a2e}
+.turn-row.current{background:#1a2a1a;border-left:3px solid var(--green)}
+.turn-row .turn-num{font-weight:700;min-width:50px;color:var(--blue)}
+.turn-row .turn-time{min-width:80px;font-size:.8rem;color:var(--muted)}
+.turn-row .turn-intent{flex:1;font-size:.85rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.turn-row .turn-chevron{margin-left:.5rem;color:var(--muted)}
+.turn-detail{padding:.5rem 1rem 1rem;border-bottom:1px solid var(--border);background:#0d0d18;display:none}
+.turn-detail.open{display:block}
+.event-item{padding:.25rem 0;font-size:.8rem;display:flex;gap:.5rem;flex-wrap:wrap}
+.event-type{color:var(--blue);font-weight:600;min-width:80px}
+.event-desc{flex:1}
+.alert-warn{color:#eab308}.alert-crit{color:var(--red)}
+.shield-list{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.3rem}
+.shield-badge{padding:.1rem .4rem;font-size:.7rem;border-radius:3px;background:#1e1e2e}
+.shield-badge.broken{background:#3d1f1f;color:var(--red)}
+
+.empty-state{text-align:center;color:var(--muted);padding:3rem}
+
+footer{text-align:center;color:var(--muted);font-size:.75rem;margin-top:2rem;padding-top:1rem;border-top:1px solid var(--border)}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="top-bar">
+    <div>
+      <h1>🖖 Kobayashi Maru — 3D Replay</h1>
+      <span style="color:var(--muted);font-size:.8rem">Select an episode to watch the battle unfold</span>
+    </div>
+    <a href="index.html" style="font-size:.85rem">← Back to Dashboard</a>
+  </div>
+
+  <div style="display:flex;gap:.5rem;align-items:center;margin-bottom:1rem">
+    <select id="episode-select">
+      <option value="">— Select an episode —</option>
+    </select>
+    <button id="load-btn" disabled>Load</button>
+    <span id="ep-info" style="font-size:.8rem;color:var(--muted);margin-left:.5rem"></span>
+  </div>
+
+  <div id="canvas-wrap">
+    <div id="loading-overlay">Loading replay data…</div>
+  </div>
+
+  <div id="player-controls" class="controls" style="display:none">
+    <button id="btn-step-back" title="Previous turn">⏮</button>
+    <button id="btn-play" title="Play/Pause">▶</button>
+    <button id="btn-step-fwd" title="Next turn">⏭</button>
+    <input type="range" id="turn-slider" min="0" max="0" value="0">
+    <span class="turn-indicator" id="turn-label">Turn 0</span>
+    <div class="speed-group">
+      <button data-speed="2000">0.5x</button>
+      <button data-speed="1000" class="active">1x</button>
+      <button data-speed="500">2x</button>
+      <button data-speed="200">5x</button>
+    </div>
+  </div>
+
+  <div id="status-panel" style="display:none">
+    <div class="panel">
+      <h2>Ship Status</h2>
+      <div class="status-grid" id="status-grid"></div>
+    </div>
+    <div class="panel">
+      <h2>Shields</h2>
+      <div class="shield-grid" id="shield-grid"></div>
+    </div>
+    <div class="panel">
+      <h2>Combat Timeline <span id="timeline-count" style="color:var(--muted);font-size:.8rem"></span></h2>
+      <div class="timeline" id="timeline"></div>
+    </div>
+  </div>
+
+  <footer>
+    Kobayashi Maru AI Benchmark · <a href="https://github.com/totalwindupflightsystems/kobayashi-maru-results">GitHub</a> · Auto-updated each benchmark wake
+  </footer>
+</div>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.184.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.184.0/examples/jsm/"
+  }
+}
+</script>
+
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+// ── State ──
+let manifest = [];
+let turns = [];           // raw turn data
+let currentIdx = 0;
+let isPlaying = false;
+let playbackMs = 1000;
+let timer = null;
+
+// ── Three.js objects ──
+let scene, camera, renderer, controls;
+let enterpriseGroup, d7Group, civilianGroup;
+let fireLines = [];
+let starfield;
+
+const SCALE = 1 / 500000;
+const FACINGS = ['fore','aft','port','starboard','dorsal','ventral'];
+
+// ── DOM refs ──
+const $epSelect = document.getElementById('episode-select');
+const $loadBtn = document.getElementById('load-btn');
+const $epInfo = document.getElementById('ep-info');
+const $overlay = document.getElementById('loading-overlay');
+const $controls = document.getElementById('player-controls');
+const $statusPanel = document.getElementById('status-panel');
+const $slider = document.getElementById('turn-slider');
+const $turnLabel = document.getElementById('turn-label');
+const $statusGrid = document.getElementById('status-grid');
+const $shieldGrid = document.getElementById('shield-grid');
+const $timeline = document.getElementById('timeline');
+const $timelineCount = document.getElementById('timeline-count');
+
+// ── Init 3D Scene ──
+function initScene() {
+  scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x000005);
+  scene.fog = new THREE.FogExp2(0x000005, 0.00002);
+
+  camera = new THREE.PerspectiveCamera(45, 1, 1, 2000);
+  camera.position.set(20, 30, 80);
+  camera.lookAt(0, 0, 0);
+
+  renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  const wrap = document.getElementById('canvas-wrap');
+  renderer.setSize(wrap.clientWidth, wrap.clientHeight);
+  wrap.appendChild(renderer.domElement);
+
+  controls = new OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.08;
+  controls.minDistance = 3;
+  controls.maxDistance = 500;
+  controls.target.set(0, 0, 0);
+
+  // Starfield
+  const starsGeo = new THREE.BufferGeometry();
+  const starsCount = 2000;
+  const starsPos = new Float32Array(starsCount * 3);
+  for (let i = 0; i < starsCount * 3; i += 3) {
+    starsPos[i] = (Math.random() - 0.5) * 800;
+    starsPos[i+1] = (Math.random() - 0.5) * 400;
+    starsPos[i+2] = (Math.random() - 0.5) * 400;
+  }
+  starsGeo.setAttribute('position', new THREE.BufferAttribute(starsPos, 3));
+  starfield = new THREE.Points(starsGeo, new THREE.PointsMaterial({ color: 0xffffff, size: 0.5 }));
+  scene.add(starfield);
+
+  // Grid
+  const grid = new THREE.GridHelper(200, 40, 0x1a1a2e, 0x0a0a15);
+  grid.position.y = -15;
+  scene.add(grid);
+
+  // Lighting
+  scene.add(new THREE.AmbientLight(0x404060, 0.4));
+  const dir = new THREE.DirectionalLight(0xffffff, 0.8);
+  dir.position.set(10, 20, 5);
+  scene.add(dir);
+
+  // Ship groups
+  enterpriseGroup = buildConstitution();
+  enterpriseGroup.visible = false;
+  scene.add(enterpriseGroup);
+
+  d7Group = buildD7();
+  d7Group.visible = false;
+  scene.add(d7Group);
+
+  civilianGroup = buildCivilian();
+  civilianGroup.visible = false;
+  scene.add(civilianGroup);
+
+  animate();
+}
+
+function buildConstitution() {
+  const g = new THREE.Group();
+  const hullMat = new THREE.MeshStandardMaterial({ color: 0xa0a0b0, metalness: 0.6, roughness: 0.3 });
+
+  // Saucer
+  const saucer = new THREE.Mesh(new THREE.CylinderGeometry(1.2, 1.2, 0.3, 32), hullMat);
+  g.add(saucer);
+
+  // Engineering hull
+  const eng = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.6, 2.0, 16), hullMat);
+  eng.position.set(0, -0.3, -1.5);
+  g.add(eng);
+
+  // Nacelles
+  const nacMat = new THREE.MeshStandardMaterial({ color: 0x4488cc, emissive: 0x2244aa, emissiveIntensity: 0.3 });
+  for (const x of [-1.0, 1.0]) {
+    const nac = new THREE.Mesh(new THREE.CapsuleGeometry(0.2, 2.5, 8, 16), nacMat);
+    nac.position.set(x, -0.5, -0.5);
+    g.add(nac);
+  }
+
+  // Shield bubble
+  const shieldGeo = new THREE.SphereGeometry(2.5, 32, 32);
+  const shieldMat = new THREE.MeshBasicMaterial({ color: 0x22c55e, transparent: true, opacity: 0.1, depthWrite: false });
+  const shield = new THREE.Mesh(shieldGeo, shieldMat);
+  shield.name = 'shield';
+  g.add(shield);
+
+  return g;
+}
+
+function buildD7() {
+  const g = new THREE.Group();
+  const hullMat = new THREE.MeshStandardMaterial({ color: 0x667744, metalness: 0.4, roughness: 0.5 });
+
+  // Main hull (cone)
+  const hull = new THREE.Mesh(new THREE.ConeGeometry(0.8, 3.0, 3), hullMat);
+  hull.rotation.z = Math.PI / 2;
+  g.add(hull);
+
+  // Neck
+  const neck = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.3, 1.0, 8), hullMat);
+  neck.position.set(0, -0.5, -1.5);
+  g.add(neck);
+
+  // Command bulb
+  const bulb = new THREE.Mesh(new THREE.SphereGeometry(0.5, 16, 16), hullMat);
+  bulb.position.set(0, -0.8, -2.2);
+  g.add(bulb);
+
+  // Shield bubble
+  const shieldGeo = new THREE.SphereGeometry(2.2, 24, 24);
+  const shieldMat = new THREE.MeshBasicMaterial({ color: 0xeab308, transparent: true, opacity: 0.08, depthWrite: false });
+  const shield = new THREE.Mesh(shieldGeo, shieldMat);
+  shield.name = 'shield';
+  g.add(shield);
+
+  return g;
+}
+
+function buildCivilian() {
+  const g = new THREE.Group();
+  const mat = new THREE.MeshStandardMaterial({ color: 0x4488ff, emissive: 0x2244aa, emissiveIntensity: 0.2 });
+  const box = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 2), mat);
+  g.add(box);
+  return g;
+}
+
+function gameToScene(pos) {
+  return [pos[0] * SCALE, pos[1] * SCALE, pos[2] * SCALE];
+}
+
+function updateShipShields(group, shieldState) {
+  const shield = group.children.find(c => c.name === 'shield');
+  if (!shield) return;
+  const vals = Object.values(shieldState);
+  const minVal = Math.min(...vals);
+  if (minVal <= 0) {
+    shield.material.color.set(0xef4444);
+    shield.material.opacity = 0.15;
+  } else if (minVal < 0.3) {
+    shield.material.color.set(0xeab308);
+    shield.material.opacity = 0.1;
+  } else {
+    shield.material.color.set(0x22c55e);
+    shield.material.opacity = 0.08;
+  }
+}
+
+function updateHullColor(group, hullPct) {
+  // Update saucer and engineering hull colors
+  const mats = [];
+  group.traverse(c => {
+    if (c.isMesh && c.material.color && !c.name.includes('shield') && !c.material.emissive) {
+      mats.push(c.material);
+    }
+  });
+  let color;
+  if (hullPct < 0.3) color = 0xef4444;
+  else if (hullPct < 0.6) color = 0xeab308;
+  else color = group === enterpriseGroup ? 0xa0a0b0 : 0x667744;
+  mats.forEach(m => m.color.set(color));
+}
+
+// ── Load Manifest ──
+async function loadManifest() {
+  try {
+    const res = await fetch('data/replays-manifest.json');
+    manifest = await res.json();
+    manifest.sort((a, b) => b.episode_id.localeCompare(a.episode_id));
+    $epSelect.innerHTML = '<option value="">— Select an episode —</option>';
+    for (const ep of manifest) {
+      const opt = document.createElement('option');
+      opt.value = ep.episode_id;
+      const modelShort = ep.model_id.length > 25 ? ep.model_id.substring(0, 25) + '…' : ep.model_id;
+      opt.textContent = `${modelShort.padEnd(28)} ${ep.turns}t  ${ep.termination.padEnd(22)} hull=${ep.hull_remaining_pct}%`;
+      $epSelect.appendChild(opt);
+    }
+    $loadBtn.disabled = false;
+    console.log(`Manifest loaded: ${manifest.length} replays`);
+  } catch (e) {
+    console.error('Failed to load manifest:', e);
+    $epSelect.innerHTML = '<option>Failed to load replays</option>';
+  }
+}
+
+// ── Load Episode ──
+async function loadEpisode(epId) {
+  $overlay.classList.remove('hidden');
+  $statusPanel.style.display = 'none';
+  $controls.style.display = 'none';
+  enterpriseGroup.visible = false;
+  d7Group.visible = false;
+  civilianGroup.visible = false;
+  turns = [];
+  currentIdx = 0;
+  stopPlayback();
+
+  const meta = manifest.find(m => m.episode_id === epId);
+  $epInfo.textContent = meta ? `${meta.model_id} · ${meta.turns} turns · ${meta.termination}` : '';
+
+  try {
+    const res = await fetch(`data/replays/${epId}.json`);
+    const raw = await res.json();
+    // Filter to turn entries (skip header-like entries without turn)
+    turns = raw.filter(e => e.turn != null);
+    console.log(`Loaded ${turns.length} turns for ${epId}`);
+
+    if (turns.length === 0) {
+      $overlay.textContent = 'No turn data in this replay';
+      return;
+    }
+
+    $controls.style.display = 'flex';
+    $statusPanel.style.display = 'block';
+    $slider.max = turns.length - 1;
+    $slider.value = 0;
+    enterpriseGroup.visible = true;
+    d7Group.visible = true;
+    civilianGroup.visible = true;
+
+    // Position camera
+    const first = turns[0];
+    const enterpise = first.ground_truth?.enterprise;
+    if (enterpise) {
+      const [ex, ey, ez] = gameToScene(enterpise.position);
+      controls.target.set(ex, ey, ez);
+      camera.position.set(ex + 30, ey + 40, ez + 60);
+      camera.lookAt(ex, ey, ez);
+    }
+
+    renderTurn(0);
+    buildTimeline();
+    $overlay.classList.add('hidden');
+  } catch (e) {
+    console.error('Failed to load episode:', e);
+    $overlay.textContent = `Error: ${e.message}`;
+  }
+}
+
+// ── Render a Turn ──
+function renderTurn(idx) {
+  if (idx < 0 || idx >= turns.length) return;
+  const turn = turns[idx];
+  currentIdx = idx;
+  $slider.value = idx;
+  $turnLabel.textContent = `Turn ${turn.turn} · T+${(turn.sim_time || 0).toFixed(0)}s`;
+
+  const gt = turn.ground_truth;
+  if (!gt) return;
+
+  // Enterprise
+  const ent = gt.enterprise;
+  if (ent) {
+    const [x, y, z] = gameToScene(ent.position);
+    enterpriseGroup.position.set(x, y, z);
+    if (ent.orientation) {
+      enterpriseGroup.quaternion.set(ent.orientation[0], ent.orientation[1], ent.orientation[2], ent.orientation[3]);
+    }
+    updateShipShields(enterpriseGroup, ent.shields || {});
+    updateHullColor(enterpriseGroup, ent.hull || 1);
+  }
+
+  // D7
+  const enemy = gt.enemies?.[0];
+  if (enemy) {
+    const [x, y, z] = gameToScene(enemy.position);
+    d7Group.position.set(x, y, z);
+    if (enemy.orientation) {
+      d7Group.quaternion.set(enemy.orientation[0], enemy.orientation[1], enemy.orientation[2], enemy.orientation[3]);
+    }
+    updateShipShields(d7Group, enemy.shields || {});
+    updateHullColor(d7Group, enemy.hull || 1);
+  }
+
+  // Civilians
+  const civ = gt.civilians?.[0];
+  if (civ) {
+    const [x, y, z] = gameToScene(civ.position);
+    civilianGroup.position.set(x, y, z);
+  }
+
+  // Fire lines
+  clearFireLines();
+  if (enemy && ent) {
+    const dist = enterpriseGroup.position.distanceTo(d7Group.position);
+    // Show fire line if ships are close (within ~200 scene units = 100M game units)
+    if (dist < 200) {
+      const pts = [enterpriseGroup.position.clone(), d7Group.position.clone()];
+      const lineGeo = new THREE.BufferGeometry().setFromPoints(pts);
+      const line = new THREE.Line(lineGeo, new THREE.LineBasicMaterial({ color: 0xff6644, transparent: true, opacity: 0.5 }));
+      scene.add(line);
+      fireLines.push(line);
+    }
+  }
+
+  // Status panel
+  updateStatusPanel(turn);
+  updateShieldPanel(turn);
+
+  // Highlight current turn in timeline
+  document.querySelectorAll('.turn-row').forEach((el, i) => {
+    el.classList.toggle('current', i === idx);
+  });
+
+  controls.target.copy(enterpriseGroup.position);
+}
+
+function clearFireLines() {
+  fireLines.forEach(l => scene.remove(l));
+  fireLines = [];
+}
+
+function updateStatusPanel(turn) {
+  const obs = turn.observation?.ship_status;
+  if (!obs) { $statusGrid.innerHTML = '<div class="stat-item">No status data</div>'; return; }
+
+  const hull = obs.hull || 0;
+  const hullPct = Math.round(hull * 100);
+  let hullColor = 'green-bar';
+  if (hullPct < 30) hullColor = 'red-bar';
+  else if (hullPct < 60) hullColor = 'yellow-bar';
+
+  const shields = obs.shields || {};
+  const shieldMin = Math.min(...Object.values(shields).filter(v => typeof v === 'number'), 1);
+
+  const alerts = turn.observation?.alerts || [];
+  const alertMsgs = alerts.map(a => `<span class="${a.severity === 'critical' ? 'alert-crit' : 'alert-warn'}">⚠ ${a.message}</span>`).join('<br>');
+
+  const power = obs.power_allocation || {};
+
+  $statusGrid.innerHTML = `
+    <div class="stat-item">
+      <div class="stat-label">Hull Integrity</div>
+      <div class="stat-value" style="color:${hullPct < 30 ? 'var(--red)' : hullPct < 60 ? '#eab308' : 'var(--green)'}">${hullPct}%</div>
+      <div class="stat-bar-wrap"><div class="stat-bar ${hullColor}" style="width:${hullPct}%"></div></div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-label">Shields (min)</div>
+      <div class="stat-value" style="color:${shieldMin < 0.3 ? 'var(--red)' : shieldMin < 0.6 ? '#eab308' : 'var(--green)'}">${Math.round(shieldMin * 100)}%</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-label">Position</div>
+      <div class="stat-value" style="font-size:.9rem">${obs.position ? obs.position.map(v => (v/1000000).toFixed(1)+'M').join(', ') : '-'}</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-label">Intent</div>
+      <div class="stat-value" style="font-size:.85rem;color:var(--blue)">${turn.action?.intent || '-'}</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-label">Weapons Power</div>
+      <div class="stat-value">${((power.weapons || 0) * 100).toFixed(0)}%</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-label">Engine Power</div>
+      <div class="stat-value">${((power.engines || 0) * 100).toFixed(0)}%</div>
+    </div>
+    ${alertMsgs ? `<div class="stat-item" style="grid-column:span 2"><div class="stat-label">Alerts</div><div>${alertMsgs}</div></div>` : ''}
+  `;
+}
+
+function updateShieldPanel(turn) {
+  const shields = turn.ground_truth?.enterprise?.shields || turn.observation?.ship_status?.shields;
+  if (!shields) { $shieldGrid.innerHTML = ''; return; }
+
+  $shieldGrid.innerHTML = FACINGS.map(f => {
+    const val = shields[f] ?? 0;
+    const pct = Math.round(val * 100);
+    const cls = val <= 0 ? 'collapsed' : '';
+    return `<div class="shield-cell ${cls}"><div class="shield-face">${f}</div><div class="shield-val" style="color:${val <= 0 ? 'var(--red)' : val < 0.3 ? '#eab308' : 'var(--green)'}">${pct}%</div></div>`;
+  }).join('');
+}
+
+// ── Timeline ──
+function buildTimeline() {
+  $timelineCount.textContent = `(${turns.length} turns)`;
+  $timeline.innerHTML = turns.map((t, i) => {
+    const obs = t.observation;
+    const alerts = obs?.alerts || [];
+    const alertTags = alerts.map(a =>
+      `<span class="${a.severity === 'critical' ? 'alert-crit' : 'alert-warn'}" style="font-size:.7rem">${a.message}</span>`
+    ).join(' ');
+
+    const shields = obs?.ship_status?.shields || {};
+    const brokenShields = FACINGS.filter(f => (shields[f] || 0) <= 0);
+    const shieldBadges = brokenShields.map(f =>
+      `<span class="shield-badge broken">${f}:0%</span>`
+    ).join('');
+
+    return `
+      <div class="turn-row" data-idx="${i}" onclick="window.goToTurn(${i})">
+        <span class="turn-num">T${t.turn}</span>
+        <span class="turn-time">T+${(t.sim_time || 0).toFixed(0)}s</span>
+        <span class="turn-intent">${t.action?.intent || '-'}</span>
+        <span style="font-size:.75rem;color:var(--muted)">${alertTags}${shieldBadges}</span>
+        <span class="turn-chevron">›</span>
+      </div>
+    `;
+  }).join('');
+
+  // Highlight current
+  const rows = $timeline.querySelectorAll('.turn-row');
+  rows.forEach((r, i) => r.classList.toggle('current', i === currentIdx));
+}
+
+window.goToTurn = function(idx) {
+  stopPlayback();
+  renderTurn(idx);
+};
+
+// ── Playback ──
+function startPlayback() {
+  if (isPlaying) return;
+  isPlaying = true;
+  document.getElementById('btn-play').textContent = '⏸';
+  timer = setInterval(() => {
+    if (currentIdx >= turns.length - 1) {
+      stopPlayback();
+      return;
+    }
+    renderTurn(currentIdx + 1);
+  }, playbackMs);
+}
+
+function stopPlayback() {
+  isPlaying = false;
+  document.getElementById('btn-play').textContent = '▶';
+  if (timer) { clearInterval(timer); timer = null; }
+}
+
+// ── Event Handlers ──
+$epSelect.addEventListener('change', () => {
+  $loadBtn.disabled = !$epSelect.value;
+});
+
+$loadBtn.addEventListener('click', () => {
+  const epId = $epSelect.value;
+  if (epId) loadEpisode(epId);
+});
+
+document.getElementById('btn-play').addEventListener('click', () => {
+  if (isPlaying) stopPlayback();
+  else startPlayback();
+});
+
+document.getElementById('btn-step-fwd').addEventListener('click', () => {
+  stopPlayback();
+  if (currentIdx < turns.length - 1) renderTurn(currentIdx + 1);
+});
+
+document.getElementById('btn-step-back').addEventListener('click', () => {
+  stopPlayback();
+  if (currentIdx > 0) renderTurn(currentIdx - 1);
+});
+
+$slider.addEventListener('input', () => {
+  stopPlayback();
+  renderTurn(parseInt($slider.value));
+});
+
+document.querySelectorAll('.speed-group button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.speed-group button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    playbackMs = parseInt(btn.dataset.speed);
+    if (isPlaying) { stopPlayback(); startPlayback(); }
+  });
+});
+
+// ── Resize ──
+window.addEventListener('resize', () => {
+  const wrap = document.getElementById('canvas-wrap');
+  renderer.setSize(wrap.clientWidth, wrap.clientHeight);
+  camera.aspect = wrap.clientWidth / Math.max(wrap.clientHeight, 1);
+  camera.updateProjectionMatrix();
+});
+
+// ── Animation Loop ──
+function animate() {
+  requestAnimationFrame(animate);
+  controls.update();
+  renderer.render(scene, camera);
+}
+
+// ── Boot ──
+initScene();
+loadManifest();
+</script>
+</body>
+</html>
