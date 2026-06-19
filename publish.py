@@ -125,6 +125,12 @@ def push_results(wake_info):
     subprocess.run(["git", "pull", "--rebase"], check=False, capture_output=True)
     subprocess.run(["git", "add", "data/leaderboard.json"], check=True)
     subprocess.run(["git", "add", "index.html"], check=True)
+    subprocess.run(["git", "add", "replay.html"], check=True)
+    subprocess.run(["git", "add", "data/replays-manifest.json"], check=True)
+    # Add new replay files (but not all 60 every time — git tracks changes)
+    replays_dir = RESULTS_REPO / "data" / "replays"
+    if replays_dir.exists():
+        subprocess.run(["git", "add", str(replays_dir)], check=True)
     msg = f"results: Wake {wake_info.get('wake', '?')} — {wake_info.get('kills',0)}/{wake_info.get('episodes',0)} kills"
     result = subprocess.run(["git", "commit", "-m", msg], capture_output=True)
     if "nothing to commit" not in result.stdout.decode() and "nothing to commit" not in result.stderr.decode():
@@ -133,6 +139,12 @@ def push_results(wake_info):
     return False
 
 if __name__ == "__main__":
+    # First, export fresh replay data
+    print("Exporting replay data…", file=sys.stderr)
+    export_script = RESULTS_REPO / "export_replays.py"
+    if export_script.exists():
+        subprocess.run([sys.executable, str(export_script)], check=False)
+    
     wake_info = parse_latest_wake()
     if wake_info is None:
         print("No wake data found in ACs — skipping publish", file=sys.stderr)
