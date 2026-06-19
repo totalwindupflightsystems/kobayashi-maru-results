@@ -526,7 +526,7 @@ function updateStatusPanel(turn) {
     </div>
     <div class="stat-item">
       <div class="stat-label">Intent</div>
-      <div class="stat-value" style="font-size:.85rem;color:var(--blue)">${turn.action?.intent || '-'}</div>
+      <div class="stat-value" style="font-size:.85rem;color:var(--blue)">${turn.action?.intent || (turn.turn === 0 ? 'Initial state' : '-')}</div>
     </div>
     <div class="stat-item">
       <div class="stat-label">Weapons Power</div>
