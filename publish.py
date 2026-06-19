@@ -10,6 +10,18 @@ RESULTS_REPO = Path("/home/kara/kobayashi-maru-results")
 DATA_FILE = RESULTS_REPO / "data" / "leaderboard.json"
 AC_FILE = Path("/home/kara/Kobayashi-Maru/.hermes/acceptance-criteria.md")
 
+def parse_cumulative_from_acs():
+    """Extract cumulative stats from first Cumulative line in ACs.
+    Returns (kills, episodes) tuple or None."""
+    if not AC_FILE.exists():
+        return None
+    import re
+    for line in AC_FILE.read_text().split("\n"):
+        m = re.search(r'Cumulative.*?(\d+)/(\d+)', line)
+        if m:
+            return (int(m.group(1)), int(m.group(2)))
+    return None
+
 def parse_latest_wake():
     """Extract wake number, kill rate, and findings from ACs.
     
@@ -80,9 +92,13 @@ def update_leaderboard_json(wake_info):
     # Update lastWake
     data["lastWake"] = wake_info
 
-    # Update leaderboard with cumulative stats
-    cumulative_kills = sum(r["kills"] for r in data.get("recent", []) if r.get("kills", 0)) + wake_info.get("kills", 0)
-    cumulative_episodes = sum(r["episodes"] for r in data.get("recent", []) if r.get("episodes", 0)) + wake_info.get("episodes", 0)
+    # Parse cumulative stats from ACs (e.g. "Cumulative: 335/402 = 83.3%")
+    cumulative_kills = wake_info.get("kills", 0)
+    cumulative_episodes = wake_info.get("episodes", 3)
+    cumulative_line = parse_cumulative_from_acs()
+    if cumulative_line:
+        cumulative_kills = cumulative_line[0]
+        cumulative_episodes = cumulative_line[1]
 
     if data.get("leaderboard") and len(data["leaderboard"]) > 0:
         m = data["leaderboard"][0]
