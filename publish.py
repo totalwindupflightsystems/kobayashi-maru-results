@@ -11,55 +11,64 @@ DATA_FILE = RESULTS_REPO / "data" / "leaderboard.json"
 AC_FILE = Path("/home/kara/Kobayashi-Maru/.hermes/acceptance-criteria.md")
 
 def parse_latest_wake():
-    """Extract wake number, kill rate, and findings from ACs."""
+    """Extract wake number, kill rate, and findings from ACs.
+    
+    The ACs have sections like:
+    ## Latest Wake Results (Wake 52 — June 16 ~05:10 UTC)
+    **⚠️ 2/3 KILLS — EP1 FAILED...**
+    Cumulative: 330/396 = 83.3%
+    """
     if not AC_FILE.exists():
         return None
     text = AC_FILE.read_text()
     lines = text.split("\n")
+    
+    import re
     wake_num = None
     kills = 0
     episodes = 0
     finding = ""
     date_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-
+    
     for i, line in enumerate(lines):
-        if "Wake" in line and "Results" in line and "UTC" in line:
-            parts = line.split()
-            for j, p in enumerate(parts):
-                if p.startswith("Wake") and j+1 < len(parts):
-                    try:
-                        wake_num = int(parts[j+1])
-                    except ValueError:
-                        pass
-            # extract date
-            for p in parts:
-                if "~" in p and "UTC" in p:
-                    date_str = p.replace("~", "").replace("UTC", "").strip()[:10]
-                    break
-        if wake_num and "/" in line and "kills" in line:
-            # e.g. "**2/2 kills" or "**1/3 completed"
-            import re
-            m = re.search(r'(\d+)/(\d+)\s*(kills|completed)', line)
-            if m:
-                kills = int(m.group(1))
-                episodes = int(m.group(2))
-        if wake_num and finding == "" and ("Key Observations" in line or "Key Finding" in line):
-            # grab next substantive line
-            for k in range(i+1, min(i+5, len(lines))):
-                if lines[k].strip().startswith("-"):
-                    finding = lines[k].strip("- ").strip()[:120]
-                    break
-
+        # Match section header: "## Latest Wake Results (Wake 52 — June 16 ~05:10 UTC)"
+        m = re.search(r'Latest Wake Results.*Wake\s+(\d+)', line, re.IGNORECASE)
+        if m:
+            wake_num = int(m.group(1))
+            # Try to extract date
+            date_m = re.search(r'(\d{4}-\d{2}-\d{2}|\w+\s+\d{2})\s*[~]', line)
+            if date_m:
+                date_str = date_m.group(1)
+            continue
+        
+        if wake_num is None:
+            continue
+            
+        # Match kill count: **⚠️ 2/3 KILLS** or **2/3 kills** or **2/3 KILLS**
+        km = re.search(r'\*\*.*?(\d+)/(\d+)\s*(?:KILLS|kills|completed)', line, re.IGNORECASE)
+        if km and kills == 0:
+            kills = int(km.group(1))
+            episodes = int(km.group(2))
+            # The rest of the bold line is the finding summary
+            finding = line.strip("* ")[:120]
+            break  # Got what we need from first match
+        
+        # Also check for Cumulative line
+        cm = re.search(r'Cumulative.*?(\d+)/(\d+)', line)
+        if cm and episodes == 0:
+            # Use cumulative as fallback
+            pass
+    
     if wake_num is None:
         return None
-
+    
     return {
         "wake": wake_num,
         "date": date_str,
-        "kills": kills,
-        "episodes": episodes,
+        "kills": kills if kills > 0 else 0,
+        "episodes": episodes if episodes > 0 else 3,
         "killRate": kills / episodes if episodes > 0 else 0,
-        "finding": finding,
+        "finding": finding[:120] if finding else "",
     }
 
 def update_leaderboard_json(wake_info):
