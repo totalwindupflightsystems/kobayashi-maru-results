@@ -5,7 +5,7 @@
     "kills": 2,
     "episodes": 3,
     "killRate": 0.6666666666666666,
-    "finding": "\u26a0\ufe0f 2/3 KILLS \u2014 EP0 FAILED (orders-as-object JSON parsing bug, 2nd+ recurrence). DELTA PORT=0.5 IN ALL EPISODES. SEED-2 C"
+    "finding": "\u26a0\ufe0f 2/3 KILLS \u2014 EP0 FAILED (orders-as-object JSON parsing bug). DELTA PORT=0.5 ESCALATED. SEED-2 CLEAN. 17TH CONSECUTIVE "
   },
   "leaderboard": [
     {
@@ -33,7 +33,7 @@
       "kills": 2,
       "episodes": 3,
       "killRate": 0.6666666666666666,
-      "finding": "\u26a0\ufe0f 2/3 KILLS \u2014 EP0 FAILED (orders-as-object JSON parsing bug, 2nd+ recurrence). DELTA PORT=0.5 IN ALL EPISODES. SEED-2 C"
+      "finding": "\u26a0\ufe0f 2/3 KILLS \u2014 EP0 FAILED (orders-as-object JSON parsing bug). DELTA PORT=0.5 ESCALATED. SEED-2 CLEAN. 17TH CONSECUTIVE "
     },
     {
       "wake": 53,
