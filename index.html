@@ -76,10 +76,9 @@ a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline}
   <p>All episodes run deterministically. Scores auto-published from benchmark pipeline.</p>
 </footer>
 
-<script src="data/leaderboard.json"></script>
 <script>
 async function loadData(){try{const r=await fetch("data/leaderboard.json");const d=await r.json();
-if(d.lastWake){const w=d.lastWake;document.getElementById("totalEpisodes").textContent=w.cumulative.split("/")[1]||"—";document.getElementById("winRate").textContent=(parseFloat(w.winRate)*100).toFixed(1)+"%";document.getElementById("activeModels").textContent="1";document.getElementById("bestModel").textContent="deepseek-v4-pro"}
+if(d.lastWake){const w=d.lastWake;document.getElementById("totalEpisodes").textContent=d.leaderboard?d.leaderboard[0].episodes:"—";document.getElementById("winRate").textContent=d.leaderboard?(d.leaderboard[0].winRate*100).toFixed(1)+"%":"—";document.getElementById("activeModels").textContent=d.leaderboard?d.leaderboard.length:"—";document.getElementById("bestModel").textContent=d.leaderboard&&d.leaderboard.length?d.leaderboard[0].model:"—"}
 if(d.leaderboard&&d.leaderboard.length){const t=document.getElementById("leaderboardBody");t.innerHTML=d.leaderboard.map((m,i)=>`<tr><td>${i+1}</td><td><strong>${m.model}</strong></td><td>${m.episodes}</td><td><span class="green">${(m.winRate*100).toFixed(0)}%</span><span class="bar greenbar" style="width:${m.winRate*80}px"></span></td><td>${(m.avgScore*100).toFixed(0)}</td><td>${m.costEfficiency.toFixed(2)}</td></tr>`).join("")}
 if(d.decisions&&d.decisions.length){const t=document.getElementById("decisionsBody");t.innerHTML=d.decisions.map(m=>`<tr><td><strong>${m.model}</strong></td><td>${m.maneuverVariety}</td><td>${(m.approachPct*100).toFixed(0)}%</td><td>${(m.evasivePct*100).toFixed(0)}%</td><td>${(m.aggressiveROE*100).toFixed(0)}%</td><td>${m.dynamicShield?"✅":"—"}</td></tr>`).join("")}
 if(d.recent&&d.recent.length){const t=document.getElementById("recentBody");t.innerHTML=d.recent.map(w=>`<tr><td>${w.wake}</td><td>${w.date}</td><td><span class="${w.killRate>=0.66?'green':'red'}">${w.kills}/${w.episodes}</span></td><td>${w.episodes}</td><td>${w.finding}</td></tr>`).join("")}
