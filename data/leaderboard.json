@@ -1,15 +1,17 @@
 {
   "lastWake": {
-    "wake": 45,
-    "date": "2026-06-15",
-    "winRate": 0.773,
-    "cumulative": "51/66"
+    "wake": 52,
+    "date": "June 16",
+    "kills": 2,
+    "episodes": 3,
+    "killRate": 0.6666666666666666,
+    "finding": "\u26a0\ufe0f 2/3 KILLS \u2014 EP1 FAILED (seed 2 empty AI response, 5th instance). Micro Management maneuver debut. Delta port=0.4 in A"
   },
   "leaderboard": [
     {
       "model": "deepseek-v4-pro",
-      "episodes": 66,
-      "winRate": 0.773,
+      "episodes": 11,
+      "winRate": 0.7272727272727273,
       "avgScore": 0.42,
       "costEfficiency": 1.4
     }
@@ -20,18 +22,26 @@
       "maneuverVariety": 3.2,
       "approachPct": 0.65,
       "evasivePct": 0.15,
-      "aggressiveROE": 0.70,
+      "aggressiveROE": 0.7,
       "dynamicShield": true
     }
   ],
   "recent": [
+    {
+      "wake": 52,
+      "date": "June 16",
+      "kills": 2,
+      "episodes": 3,
+      "killRate": 0.6666666666666666,
+      "finding": "\u26a0\ufe0f 2/3 KILLS \u2014 EP1 FAILED (seed 2 empty AI response, 5th instance). Micro Management maneuver debut. Delta port=0.4 in A"
+    },
     {
       "wake": 45,
       "date": "2026-06-15",
       "kills": 1,
       "episodes": 2,
       "killRate": 0.5,
-      "finding": "3 maneuver patterns — best diversity in 6 wakes"
+      "finding": "3 maneuver patterns \u2014 best diversity in 6 wakes"
     },
     {
       "wake": 44,
@@ -39,7 +49,7 @@
       "kills": 2,
       "episodes": 3,
       "killRate": 0.67,
-      "finding": "D7 hit-rate anomaly FIXED — RNG distribution uniform"
+      "finding": "D7 hit-rate anomaly FIXED \u2014 RNG distribution uniform"
     },
     {
       "wake": 43,
@@ -47,7 +57,7 @@
       "kills": 3,
       "episodes": 3,
       "killRate": 1.0,
-      "finding": "3/3 kills — WI-1 fix confirmed across all seeds"
+      "finding": "3/3 kills \u2014 WI-1 fix confirmed across all seeds"
     }
   ]
 }
