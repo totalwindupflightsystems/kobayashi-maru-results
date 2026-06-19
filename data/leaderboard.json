@@ -10,8 +10,8 @@
   "leaderboard": [
     {
       "model": "deepseek-v4-pro",
-      "episodes": 17,
-      "winRate": 0.7647058823529411,
+      "episodes": 402,
+      "winRate": 0.8333333333333334,
       "avgScore": 0.42,
       "costEfficiency": 1.4
     }
