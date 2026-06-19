@@ -94,6 +94,9 @@ def update_leaderboard_json(wake_info):
 def push_results(wake_info):
     """Commit and push to public repo."""
     os.chdir(RESULTS_REPO)
+    # Ensure git identity is configured for this repo
+    subprocess.run(["git", "config", "user.email", "totalwindupflightsystems@users.noreply.github.com"], check=False)
+    subprocess.run(["git", "config", "user.name", "totalwindupflightsystems"], check=False)
     subprocess.run(["git", "pull", "--rebase"], check=False, capture_output=True)
     subprocess.run(["git", "add", "data/leaderboard.json"], check=True)
     subprocess.run(["git", "add", "index.html"], check=True)
