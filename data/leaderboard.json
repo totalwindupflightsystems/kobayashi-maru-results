@@ -5,6 +5,7 @@
     "kills": 2,
     "episodes": 3,
     "killRate": 0.6666666666666666,
+    "scenario": "basic_combat",
     "finding": "\u26a0\ufe0f 2/3 KILLS \u2014 SEED 2 FAILED (orders-as-object JSON parsing bug). 3RD RECURRENCE. SEED 1 & 3 VICTORY."
   },
   "leaderboard": [
@@ -33,6 +34,7 @@
       "kills": 2,
       "episodes": 3,
       "killRate": 0.6666666666666666,
+      "scenario": "basic_combat",
       "finding": "\u26a0\ufe0f 2/3 KILLS \u2014 SEED 2 FAILED (orders-as-object JSON parsing bug). 3RD RECURRENCE. SEED 1 & 3 VICTORY."
     },
     {
